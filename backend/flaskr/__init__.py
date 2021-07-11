@@ -127,27 +127,44 @@ def create_app(test_config=None):
   def create_question():
     body = request.get_json()
 
-    new_question = body.get('question')
-    insert_answer = body.get('answer')
-    insert_difficulty = body.get('difficulty')
-    insert_category = body.get('category')
-    
-    try:
-      question = Question(question=new_question, answer=insert_answer,difficulty=insert_difficulty, category=insert_category)
-      question.insert()
+    # if search
+    if (body.get('searchTerm')):
+      search = body.get('searchTerm')
+      try:
+        current_questions = Question.query.filter(Question.question.ilike('%{}%'.format(search))).all()
 
-      selection = Question.query.order_by(Question.id).all()
-      current_questions = paginate_questions(request, selection)
-    
-      return jsonify({
-        'success': True,
-        'created': question.id,
-        'questions': current_questions,
-        'total_questions': len(Question.query.all())
-        })
+        return jsonify({
+          'success': True,
+          'questions': [questions.format() for questions in current_questions],
+          'total_questions': len(Question.query.all())
+          })
 
-    except:
-      abort(400)
+      except:
+        abort(404)
+
+    else:
+      new_question = body.get('question')
+      insert_answer = body.get('answer')
+      insert_difficulty = body.get('difficulty')
+      insert_category = body.get('category')
+    
+      try:
+        question = Question(question=new_question, answer=insert_answer,difficulty=insert_difficulty, category=insert_category)
+        question.insert()
+
+        selection = Question.query.order_by(Question.id).all()
+        current_questions = paginate_questions(request, selection)
+    
+        return jsonify({
+          'success': True,
+          'created': question.id,
+          'question_created': question.question,
+          'questions': current_questions,
+          'total_questions': len(Question.query.all())
+          })
+
+      except:
+        abort(400)
 
   '''
   DONE : Create a POST endpoint to get questions based on a search term. 
@@ -159,22 +176,22 @@ def create_app(test_config=None):
   Try using the word "title" to start. 
   '''
 
-# run successfully in curl
-  @app.route('/questions/search', methods=['POST'])
-  def search():
-    body = request.get_json()
-    search = body.get('searchTerm', None)
+# run successfully in curl only
+  # @app.route('/questions/search', methods=['POST'])
+  # def search():
+  #   body = request.get_json()
+  #   search = body.get('searchTerm', None)
 
-    try:
-        current_questions = Question.query.filter(Question.question.ilike('%{}%'.format(search))).all()
+  #   try:
+  #       current_questions = Question.query.filter(Question.question.ilike('%{}%'.format(search))).all()
 
-        return jsonify({
-          'success': True,
-          'questions': [questions.format() for questions in current_questions]
-        })
+  #       return jsonify({
+  #         'success': True,
+  #         'questions': [questions.format() for questions in current_questions]
+  #       })
 
-    except:
-      abort(404)
+  #   except:
+  #     abort(404)
 
   '''
   DONE : Create a GET endpoint to get questions based on category. 
@@ -204,7 +221,7 @@ def create_app(test_config=None):
 
 
   '''
-  Create a POST endpoint to get questions to play the quiz. 
+  DONE : Create a POST endpoint to get questions to play the quiz. 
   This endpoint should take category and previous question parameters 
   and return a random questions within the given category, 
   if provided, and that is not one of the previous questions. 

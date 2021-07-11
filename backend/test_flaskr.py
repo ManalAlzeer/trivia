@@ -63,7 +63,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'unprocessable')
 
     def test_delete_book(self):
-        res = self.client().delete('/questions/4')
+        res = self.client().delete('/questions/19')
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
@@ -84,7 +84,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
     def test_search_questions(self):
-        res=self.client().post('/questions/search',json={'searchTerm': 'are'})
+        res=self.client().post('/questions',json={'searchTerm': 'are'})
         data=json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])

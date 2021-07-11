@@ -2,7 +2,7 @@
 __pycache__
 venv
 .vscode
-node_modules
+/frontend/node_modules
 
 .pytest_cache
 *.code-workspace

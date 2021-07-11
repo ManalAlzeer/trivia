@@ -20,10 +20,10 @@ Completing this trivia app will give you the ability to structure plan, implemen
 We started the full stack application for you. It is designed with some key functional areas:
 
 ### Backend
-The [./backend](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter/backend/README.md) 
+The [./backend](https://github.com/ManalAlzeer/trivia/blob/master/backend/README.md) directory contains a completed Flask and SQLAlchemy server. 
 ### Frontend
 
-The [./frontend](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter/frontend/README.md)
+The [./frontend](https://github.com/ManalAlzeer/trivia/blob/master/frontend/README.md) directory contains a complete React frontend to consume the data from the Flask server.
 
 
 >View the [README within ./frontend for more details.](./frontend/README.md)
